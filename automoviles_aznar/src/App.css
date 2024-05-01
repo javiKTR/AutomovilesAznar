@@ -69,6 +69,13 @@ header h1 {
   font-weight: bold;
 }
 
+header a {
+  color: white;
+  text-decoration: none;
+  margin-right: 2rem;
+  font-weight: bold;
+}
+
 /* Contenedor principal */
 .container {
   display: flex;
