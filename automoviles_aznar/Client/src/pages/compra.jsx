@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import Axios from 'axios';
 import { Link } from '../link.jsx';
 
-export default function AlquilerPage() {
+export default function CompraPage() {
   const [coches, setCoches] = useState([]);
   const [cochesC, setCochesC] = useState([]);
   const [cochesF, setCochesF] = useState([]);
 
   useEffect(() => {
     getCoches();
-  });
+  },[]);
 
   const getCoches = () => {
     Axios.get("http://localhost:3001/getecars").then((response) => {
@@ -23,8 +23,8 @@ export default function AlquilerPage() {
   }
 
   const filtrarCoches = () => {
-    const idsCochesA = new Set(cochesA.map(coche => coche.idCoche));
-    const cochesFiltrados = coches.filter(coche => idsCochesA.has(coche.id));
+    const idsCochesC = new Set(cochesC.map(coche => coche.idCoche));
+    const cochesFiltrados = coches.filter(coche => idsCochesC.has(coche.id));
     setCochesF(cochesFiltrados);
   };
 

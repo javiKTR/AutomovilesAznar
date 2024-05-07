@@ -4,6 +4,7 @@ import reactLogo from './assets/react.svg'
 import './App.css'
 
 const AlquilerPage = lazy(() => import('./pages/alquilar.jsx'))
+const CompraPage = lazy(() => import('./pages/compra.jsx'))
 const HomePage = lazy(() => import('./pages/home.jsx'))
 const Page404 = lazy(() => import('./pages/404.jsx'))
 const SerchPage = lazy(() => import('./pages/serch.jsx'))
@@ -29,6 +30,7 @@ function App() {
         <Router routes={routes} defaultComponent={Page404}>
           <Route path='/' Component={HomePage} />
           <Route path='/alquiler' Component={AlquilerPage} />
+          <Route path='/compra' Component={CompraPage} />
           <Route path='/Singin' Component={Singin} />
         </Router>
       </Suspense>

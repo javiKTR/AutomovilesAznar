@@ -42,9 +42,19 @@ export default function AlquilerPage() {
       <main className="container">
         <h2>Coches de alquiler</h2>
         <div className="carrousel">
-          {cochesF.map((val, key) => {
-            return <ImagenCoche coche={val.modelo} key={key} />;
-          })}
+          {cochesF.reduce((chunks, item, index) => {
+            if (index % 4 === 0) {
+              chunks.push([]);
+            }
+            chunks[chunks.length - 1].push(item);
+            return chunks;
+          }, []).map((chunk, index) => (
+            <div className="carrousel-row" key={index}>
+              {chunk.map((val, key) => (
+                <ImagenCoche coche={val.modelo} marca={val.marca} modelo={val.modelo} />
+              ))}
+            </div>
+          ))}
         </div>
       </main>
       <footer>
@@ -58,9 +68,18 @@ export default function AlquilerPage() {
   );
 }
 
-function ImagenCoche({ coche }) {
-  return (<Link to={coche}><img src={`/images/${coche}.png`} alt={coche} /></Link>);
+function ImagenCoche({ coche, marca, modelo }) {
+  return (
+    <div className="Coche">
+    <Link to={coche}><img src={`/images/${coche}.png`} alt={coche} /></Link>
+      <div className="CocheData">
+        <h3>{marca}</h3>
+        <p> {modelo}</p>
+      </div>
+    </div>
+  );
 }
+
 function LogoCoche({ logo }) {
   return (<Link><img src={`/images/${logo}-logo.png`} alt={logo} /></Link>);
 }
