@@ -9,14 +9,13 @@ export default function HomePage() {
   useEffect(() => {
     const manager = new ManagerCoche();
     async function fetchData() {
-      await manager.fetchCoches(); // Carga tanto alquiler como compra
-      setCochesAlquiler(manager.getCochesAlquiler().slice(0, 4)); // Los primeros 4 coches de alquiler
-      setCochesCompra(manager.getCochesCompra().slice(0, 4)); // Los primeros 4 coches de compra
+      await manager.fetchCoches(); 
+      setCochesAlquiler(manager.getCochesAlquiler().slice(0, 4));
+      setCochesCompra(manager.getCochesCompra().slice(0, 4)); 
     }
     fetchData();
   }, []);
 
-  // Resto del componente
   return (
     <>
       <header>
