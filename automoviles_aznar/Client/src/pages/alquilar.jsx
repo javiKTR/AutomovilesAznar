@@ -1,33 +1,19 @@
 import { useState, useEffect } from "react";
 import Axios from 'axios';
 import { Link } from '../link.jsx';
+import { ManagerCoche } from "../dbClases/coches.js"
 
 export default function AlquilerPage() {
   const [coches, setCoches] = useState([]);
-  const [cochesA, setCochesA] = useState([]);
-  const [cochesF, setCochesF] = useState([]);
 
-  useEffect(() => {
-    getCoches();
-  });
-
-  const getCoches = () => {
-    Axios.get("http://localhost:3001/getecars").then((response) => {
-      setCoches(response.data);
-    }).then(() => {
-      Axios.get("http://localhost:3001/getecarsa").then((response) => {
-        setCochesA(response.data);
-        filtrarCoches();
-      });
-    });
-  }
-
-  const filtrarCoches = () => {
-    const idsCochesA = new Set(cochesA.map(coche => coche.idCoche));
-    const cochesFiltrados = coches.filter(coche => idsCochesA.has(coche.id));
-    setCochesF(cochesFiltrados);
-  };
-
+    useEffect(() => {
+        const cocheManager = new ManagerCoche();
+        async function loadCoches() {
+            await cocheManager.fetchCoches();
+            setCoches(cocheManager.getCochesAlquiler());
+        }
+        loadCoches();
+    }, []);
   return (
     <>
       <header>
@@ -42,7 +28,7 @@ export default function AlquilerPage() {
       <main className="container">
         <h2>Coches de alquiler</h2>
         <div className="carrousel">
-          {cochesF.reduce((chunks, item, index) => {
+          {coches.reduce((chunks, item, index) => {
             if (index % 4 === 0) {
               chunks.push([]);
             }
@@ -70,7 +56,7 @@ export default function AlquilerPage() {
 
 function ImagenCoche({ coche, marca, modelo }) {
   return (
-    <div className="Coche">
+    <div className="Cochea">
     <Link to={coche}><img src={`/images/${coche}.png`} alt={coche} /></Link>
       <div className="CocheData">
         <h3>{marca}</h3>

@@ -84,8 +84,8 @@ header a {
   justify-content:space-between;
   padding: 0%;
 }
-/*
-.carrousel {
+
+.preVista {
   display: flex;
   justify-content:space-between;
   margin: 2rem 0;
@@ -94,7 +94,11 @@ header a {
   height: 300px;
   width: 90%;
 }
-*/
+
+.preVista img{
+  height: 300px;
+}
+
 .carrousel {
   display: flex;
   flex-wrap: wrap;
@@ -112,10 +116,6 @@ header a {
   margin-bottom: 1rem; /* Espacio entre las filas */
 }
 
-.carrousel img {
-  width: 22%; /* Establece el ancho de las imágenes */
-  height: auto; /* Mantiene la proporción de aspecto */
-}
 /*
 .carrousel .ImagenCoche {
   flex: 0 1 30%; 
@@ -127,7 +127,7 @@ header a {
 }
 
 .carrousel a {
-  border-radius: 10px; /* Bordes redondeados */
+  border-radius: 10px; /* Bordes redondeados */ 
   overflow: hidden; /* Para que los bordes redondeados se apliquen a las imágenes */
 }
 
@@ -172,7 +172,7 @@ footer {
   margin-top: 1rem;
 }
 
-.Coche {
+.Cochec {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -180,11 +180,30 @@ footer {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: #e05a5a; /*Cambiar color por pagina*/
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.Cochea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #6adcff; /*Cambiar color por pagina */
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-.Coche img {
+
+.Cochea img {
+  width: 100%;
+  height: 200px;
+  margin-bottom: 10px;
+  object-fit:fill; /* Asegura que la imagen cubra el área sin deformarse */
+}
+
+.Cochec img {
   width: 100%;
   height: 200px;
   margin-bottom: 10px;

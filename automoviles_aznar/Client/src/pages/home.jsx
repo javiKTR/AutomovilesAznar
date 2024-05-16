@@ -1,62 +1,94 @@
-import { Link } from '../link.jsx'
+import React, { useState, useEffect } from 'react';
+import { Link } from '../link.jsx';
+import { ManagerCoche } from "../dbClases/coches.js"
 
-export default function HomePage () { 
-    return(
-        <>
-        <header>
+export default function HomePage() {
+  const [cochesAlquiler, setCochesAlquiler] = useState([]);
+  const [cochesCompra, setCochesCompra] = useState([]);
+
+  useEffect(() => {
+    const manager = new ManagerCoche();
+    async function fetchData() {
+      await manager.fetchCoches(); // Carga tanto alquiler como compra
+      setCochesAlquiler(manager.getCochesAlquiler().slice(0, 4)); // Los primeros 4 coches de alquiler
+      setCochesCompra(manager.getCochesCompra().slice(0, 4)); // Los primeros 4 coches de compra
+    }
+    fetchData();
+  }, []);
+
+  // Resto del componente
+  return (
+    <>
+      <header>
         <h1>Automóviles Aznar</h1>
         <nav className="enlaces">
           <Link to="/marcas">Nuestras marcas</Link>
-          <Link to='/alquiler'>Alquiler</Link>
+          <Link to="/alquiler">Alquiler</Link>
           <Link to="/compra">Compra</Link>
           <Link to="/cita">Pedir cita</Link>
           <Link to="/Singin">Singin</Link>
         </nav>
       </header>
-      
+
       <main className="container">
-        {/* Suponiendo que tendrás un carrusel o algo similar para mostrar los automóviles */}
         <h2>Coches de alquiler</h2>
-        <div className="carrousel">
-          <ImagenCoche coche={"Rx7"}/>
-          <ImagenCoche coche={"AE86"}/>
-          <ImagenCoche coche={"WolgsvagenGTI"}/>
+        <div className="preVista">
+          {cochesAlquiler.map(coche => (
+            <ImagenCochea key={coche.id} coche={coche.modelo} marca={coche.marca} modelo={coche.modelo} />
+          ))}
         </div>
         <h2>Coches para comprar</h2>
-        <div className="carrousel">
-          <ImagenCoche coche={"Rx7"}/>
-          <ImagenCoche coche={"AE86"}/>
-          <ImagenCoche coche={"WolgsvagenGTI"}/>
+        <div className="preVista">
+          {cochesCompra.map(coche => (
+            <ImagenCochec key={coche.id} coche={coche.modelo} marca={coche.marca} modelo={coche.modelo} />
+          ))}
         </div>
-        
+
         <section className="marcas">
           <h2>Nuestras marcas</h2>
           <div className="logos-marcas">
-            {/* Suponiendo que tendrás logos de las marcas aquí */}
-            <LogoCoche logo={"Wolgsvagen"}/>
-            <LogoCoche logo={"Nissan"}/>
-            <LogoCoche logo={"mazda"}/>
+            <LogoCoche logo="Wolgsvagen" />
+            <LogoCoche logo="Nissan" />
+            <LogoCoche logo="Mazda" />
           </div>
         </section>
       </main>
-      
+
       <footer>
         <div className="contacto">
-          <p>nº de telefono : 976 969 696</p>
-          <p>WhatsApp : 676 565 454</p>
+          <p>nº de teléfono: 976 969 696</p>
+          <p>WhatsApp: 676 565 454</p>
           <p>Email: AutomovilesAznar@gmail.com</p>
-          {/* Agregar aquí más información de contacto si es necesario */}
         </div>
       </footer>
     </>
-    )
+  );
 }
 
-
-
-function ImagenCoche ({coche}){
-  return(<Link to={coche}><img src={`/images/${coche}.png`} alt={coche}/></Link>)
+function ImagenCochea({ coche, marca, modelo }) {
+  return (
+    <div className="Cochea">
+      <Link to={`/coche/${coche}`}><img src={`/images/${coche}.png`} alt={coche} /></Link>
+      <div className="CocheData">
+        <h3>{marca}</h3>
+        <p>{modelo}</p>
+      </div>
+    </div>
+  );
 }
-  function LogoCoche ({logo}){
-    return(<Link><img src={`/images/${logo}-logo.png`} alt={logo}/></Link>)
-  }
+
+function ImagenCochec({ coche, marca, modelo }) {
+  return (
+    <div className="Cochec">
+      <Link to={`/coche/${coche}`}><img src={`/images/${coche}.png`} alt={coche} /></Link>
+      <div className="CocheData">
+        <h3>{marca}</h3>
+        <p>{modelo}</p>
+      </div>
+    </div>
+  );
+}
+
+function LogoCoche({ logo }) {
+  return (<Link><img src={`/images/${logo}-logo.png`} alt={logo} /></Link>);
+}

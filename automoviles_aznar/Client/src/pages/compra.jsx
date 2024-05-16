@@ -1,34 +1,21 @@
 import { useState, useEffect } from "react";
 import Axios from 'axios';
 import { Link } from '../link.jsx';
+import { ManagerCoche } from "../dbClases/coches.js"
 
 export default function CompraPage() {
   const [coches, setCoches] = useState([]);
-  const [cochesC, setCochesC] = useState([]);
-  const [cochesF, setCochesF] = useState([]);
 
-  useEffect(() => {
-    getCoches();
-  },[]);
+    useEffect(() => {
+        const cocheManager = new ManagerCoche();
+        async function loadCochesCompra() {
+            await cocheManager.fetchCoches();  // Esto también carga los datos necesarios para alquileres, si es un problema, se puede optimizar más tarde
+            setCoches(cocheManager.getCochesCompra());
+        }
+        loadCochesCompra();
+    }, []);
 
-  const getCoches = () => {
-    Axios.get("http://localhost:3001/getecars").then((response) => {
-      setCoches(response.data);
-    }).then(() => {
-      Axios.get("http://localhost:3001/getecarsc").then((response) => {
-        setCochesC(response.data);
-        filtrarCoches();
-      });
-    });
-  }
 
-  const filtrarCoches = () => {
-    const idsCochesC = new Set(cochesC.map(coche => coche.idCoche));
-    const cochesFiltrados = coches.filter(coche => idsCochesC.has(coche.id));
-    setCochesF(cochesFiltrados);
-  };
-
-  getCoches();
   return (
     <>
       <header>
@@ -43,9 +30,19 @@ export default function CompraPage() {
       <main className="container">
         <h2>Coches para comprar</h2>
         <div className="carrousel">
-          {cochesF.map((val, key) => {
-            return <ImagenCoche coche={val.modelo} key={key} />;
-          })}
+        {coches.reduce((chunks, item, index) => {
+            if (index % 4 === 0) {
+              chunks.push([]);
+            }
+            chunks[chunks.length - 1].push(item);
+            return chunks;
+          }, []).map((chunk, index) => (
+            <div className="carrousel-row" key={index}>
+              {chunk.map((val, key) => (
+                <ImagenCoche coche={val.modelo} marca={val.marca} modelo={val.modelo} />
+              ))}
+            </div>
+          ))}
         </div>
       </main>
       <footer>
@@ -59,9 +56,18 @@ export default function CompraPage() {
   );
 }
 
-function ImagenCoche({ coche }) {
-  return (<Link to={coche}><img src={`/images/${coche}.png`} alt={coche} /></Link>);
+function ImagenCoche({ coche, marca, modelo }) {
+  return (
+    <div className="Cochec">
+    <Link to={coche}><img src={`/images/${coche}.png`} alt={coche} /></Link>
+      <div className="CocheData">
+        <h3>{marca}</h3>
+        <p> {modelo}</p>
+      </div>
+    </div>
+  );
 }
+
 function LogoCoche({ logo }) {
   return (<Link><img src={`/images/${logo}-logo.png`} alt={logo} /></Link>);
 }

@@ -19,7 +19,7 @@ app.post("/createusr",(req,res) =>{
     const email = req.body.email;
     const password = req.body.password;
 
-    db.query("INSERT INTO usuarios(nombre,apellidos,email,password) VALUES(?,?,?,?)", [nombre,apellidos,email,password],
+    db.query("INSERT INTO usuario(nombre,apellidos,email,password) VALUES(?,?,?,?)", [nombre,apellidos,email,password],
     (err, result)=>{
         if(err){
             console.log("ERROR: " + err);
@@ -41,7 +41,7 @@ app.post("/createusr",(req,res) =>{
 
 app.get("/getusr",(req,res) =>{
 
-    db.query("SELECT id,name,email FROM usuarios",
+    db.query("SELECT * FROM usuario",
     (err, result)=>{
         if(err){
             console.log("ERROR: " + err);

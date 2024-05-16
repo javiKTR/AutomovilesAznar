@@ -1,20 +1,18 @@
 import { useState } from "react"
 import Axios from "axios"
 import { Link } from '../link.jsx'
+import { Usuario } from '../clases/usuario.js'
 
 
 export default function Singin(){
-    const [nombre, setNombre] = useState("");
-    const [apellido, setApellido] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    
+    const usr = new Usuario();
+
     const addUser = () => {
         Axios.post("http://localhost:3001/createusr", {
-            nombre:nombre,
-            apellidos:apellido,
-            email:email,
-            password:password
+            nombre: usr.getNombre(),
+            apellidos: usr.getApellidos(),
+            email: usr.getEmail(),
+            password: usr.getPassword() 
         }).then(() => {
             console.log("Empleado registrado");
         })
@@ -25,22 +23,22 @@ export default function Singin(){
             <div className="datos">
                 <label>Nombre: <input 
                 onChange={(event) => {
-                    setNombre(event.target.value)
+                    usr.setNombre(event.target.value);
                 }}
                 type="text"/></label><br/>
                 <label>Apellido: <input 
                 onChange={(event) => {
-                    setApellido(event.target.value)
+                    usr.setApellidos(event.target.value);
                 }}
                 type="text"/></label><br/>
                 <label>Email: <input 
                 onChange={(event) => {
-                    setEmail(event.target.value)
+                    usr.setEmail(event.target.value);
                 }}
                 type="email"/></label><br/>
                 <label>Password: <input 
                 onChange={(event) => {
-                    setPassword(event.target.value)
+                    usr.setPassword(event.target.value);
                 }}
                 type="password"/></label>
                 <Link to = "/"><button onClick={addUser}>Singin</button></Link>
