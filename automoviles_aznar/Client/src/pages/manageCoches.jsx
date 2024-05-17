@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ManagerCoche } from '../dbClases/coches';
 
-function ManageCars() {
+export default function ManageCars() {
     const [managerCoche] = useState(new ManagerCoche());
     const [cars, setCars] = useState([]);
     const [car, setCar] = useState({ id: '', marca: '', modelo: '', descripcion: '' });
@@ -65,5 +65,3 @@ function ManageCars() {
         </div>
     );
 }
-
-export default ManageCars;
