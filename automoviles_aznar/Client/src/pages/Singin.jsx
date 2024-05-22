@@ -43,6 +43,10 @@ export default function Singin(){
                 type="password"/></label>
                 <Link to = "/"><button onClick={addUser}>Singin</button></Link>
             </div>
+            <div>
+                <p>Si ya tienes cuenta</p>
+                <Link to = "/Login">Login</Link>
+            </div>
         </>
     )
 }

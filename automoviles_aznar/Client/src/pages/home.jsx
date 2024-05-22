@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from '../link.jsx';
 import { ManagerCoche } from "../dbClases/coches.js"
+import { parseJwt } from "../paretoken.js"
 
 export default function HomePage() {
   const [cochesAlquiler, setCochesAlquiler] = useState([]);
   const [cochesCompra, setCochesCompra] = useState([]);
+  let tokenExitst
+  try {
+    tokenExitst = (parseJwt(localStorage.getItem('login')).exp * 1000 > Date.now());
+  } catch (error) {
+    tokenExitst = false;
+  }
+  
 
   useEffect(() => {
+
     const manager = new ManagerCoche();
     async function fetchData() {
       await manager.fetchCoches(); 
@@ -25,7 +34,7 @@ export default function HomePage() {
           <Link to="/alquiler">Alquiler</Link>
           <Link to="/compra">Compra</Link>
           <Link to="/cita">Pedir cita</Link>
-          <Link to="/Singin">Singin</Link>
+          {tokenExitst ?  <Link to="/Logout">Logout</Link> : <Link to="/Singin">Singin</Link>}
         </nav>
       </header>
 

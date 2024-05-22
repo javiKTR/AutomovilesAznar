@@ -3,6 +3,7 @@ import Axios from "axios"
 import { Link } from '../link.jsx'
 import { Usuario } from '../clases/usuario.js'
 
+localStorage.removeItem('login');
 
 export default function Login(){
     const usr = new Usuario();
@@ -29,17 +30,8 @@ export default function Login(){
     return(
         <>
             <div className="datos">
-                <label>Email: <input 
-                onChange={(event) => {
-                    usr.setEmail(event.target.value);
-                }}
-                type="email"/></label><br/>
-                <label>Password: <input 
-                onChange={(event) => {
-                    usr.setPassword(event.target.value);
-                }}
-                type="password"/></label>
-                <Link to = "/"><button onClick={getUser}>Singin</button></Link>
+                
+                <Link to = "/"><button>Go home</button></Link>
             </div>
         </>
     )

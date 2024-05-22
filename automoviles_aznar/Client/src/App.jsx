@@ -9,6 +9,8 @@ const HomePage = lazy(() => import('./pages/home.jsx'))
 const Page404 = lazy(() => import('./pages/404.jsx'))
 const SerchPage = lazy(() => import('./pages/serch.jsx'))
 const Singin = lazy(() => import('./pages/Singin.jsx'))
+const Login = lazy(() => import('./pages/Login.jsx'))
+const Logout = lazy(() => import('./pages/Logout.jsx'))
 const ManageCars = lazy(() => import('./pages/manageCoches.jsx'))
 
 import { Router } from './Router.jsx'
@@ -33,6 +35,8 @@ function App() {
           <Route path='/alquiler' Component={AlquilerPage} />
           <Route path='/compra' Component={CompraPage} />
           <Route path='/Singin' Component={Singin} />
+          <Route path='/Login' Component={Login} />
+          <Route path='/Logout' Component={Logout} />
           <Route path='/manageCars' Component={ManageCars} />
         </Router>
       </Suspense>

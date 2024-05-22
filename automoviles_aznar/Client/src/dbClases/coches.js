@@ -25,7 +25,7 @@ export class ManagerCoche {
 
     async fetchCochesAlquiler() {
         try {
-            const res = await Axios.get("http://localhost:3001/getecarsa");
+            const res = await Axios.get("http://localhost:3001/getrentals");
             this.cochesA = res.data;
             this.filtrarCochesAlquiler();
         } catch (error) {
@@ -35,7 +35,7 @@ export class ManagerCoche {
 
     async fetchCochesCompra() {
         try {
-            const res = await Axios.get("http://localhost:3001/getecarsc");
+            const res = await Axios.get("http://localhost:3001/getpurchases");
             this.cochesC = res.data;
             this.filtrarCochesCompra();
         } catch (error) {

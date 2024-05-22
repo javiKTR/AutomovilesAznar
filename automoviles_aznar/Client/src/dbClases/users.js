@@ -18,6 +18,14 @@ export class ManagerUsuario {
         }
     }
 
+    async login(userData) {
+        try {
+            const res = await Axios.post("http://localhost:3001/adduser", userData);
+            this.usuarios.push(new Usuario(res.data.id, res.data.nombre, res.data.apellidos, res.data.email, res.data.password));
+        } catch (error) {
+            console.error("Error adding user:", error);
+        }
+    }
     async addUser(userData) {
         try {
             const res = await Axios.post("http://localhost:3001/adduser", userData);
