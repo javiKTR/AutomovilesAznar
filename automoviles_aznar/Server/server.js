@@ -51,6 +51,18 @@ app.post("/login", (req, res) => {
             }
         });
 });
+app.post("/getuser", (req, res) => {
+    const { email } = req.body;
+    db.query("SELECT rango FROM usuario WHERE email = ?",[email], 
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
 app.get("/getusers", (req, res) => {
     db.query("SELECT * FROM usuario", 
         (err, result) => {
@@ -75,8 +87,21 @@ app.delete("/deleteuser/:id", (req, res) => {
     });
 });
 
-
 // Rutas de coches
+app.post("/getcoche", (req, res) => {
+    const modelo = req.body.modelo;
+    db.query("SELECT * FROM coche WHERE modelo = ?", 
+        [modelo], 
+        (err, result) => {
+            if (err) {
+                console.error("ERROR " + err);
+                res.status(500).send(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+
 app.post("/createcar", (req, res) => {
     const { marca, modelo, descripcion } = req.body;
     db.query("INSERT INTO coche(marca, modelo, descripcion) VALUES(?, ?, ?)", 
@@ -103,6 +128,36 @@ app.get("/getecars", (req, res) => {
         });
 });
 
+// Ruta para actualizar coche
+app.put("/updatecar/:id", (req, res) => {
+    const { id } = req.params;
+    const { marca, modelo, descripcion, kilometros, potencia, transmision, combustible, carroceria } = req.body;
+    db.query(
+        "UPDATE coche SET marca = ?, modelo = ?, descripcion = ?, kilometros = ?, potencia = ?, transmision = ?, combustible = ?, carroceria = ? WHERE id = ?",
+        [marca, modelo, descripcion, kilometros, potencia, transmision, combustible, carroceria, id],
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send("Coche actualizado");
+            }
+        }
+    );
+});
+
+// Ruta para eliminar coche
+app.delete("/deletecar/:id", (req, res) => {
+    const { id } = req.params;
+    db.query("DELETE FROM coche WHERE id = ?", [id], (err, result) => {
+        if (err) {
+            console.error("ERROR: " + err);
+            res.status(500).send(err);
+        } else {
+            res.send("Coche eliminado");
+        }
+    });
+});
 
 // Rutas para alquileres
 app.post("/addrental", (req, res) => {
@@ -142,6 +197,7 @@ app.delete("/deleterental/:idCoche", (req, res) => {
         }
     });
 });
+
 // Rutas para compras
 app.post("/addpurchase", (req, res) => {
     const { idCoche, precio, idUsuario } = req.body;

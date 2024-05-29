@@ -11,7 +11,10 @@ const SerchPage = lazy(() => import('./pages/serch.jsx'))
 const Singin = lazy(() => import('./pages/Singin.jsx'))
 const Login = lazy(() => import('./pages/Login.jsx'))
 const Logout = lazy(() => import('./pages/Logout.jsx'))
+const Coche = lazy(() => import('./pages/coche.jsx'))
+const Cocheadmin = lazy(() => import('./pages/cocheAdmin.jsx'))
 const ManageCars = lazy(() => import('./pages/manageCoches.jsx'))
+const Cita = lazy(() => import('./pages/cita.jsx'))
 
 import { Router } from './Router.jsx'
 import { Route } from './Route.jsx'
@@ -37,10 +40,12 @@ function App() {
           <Route path='/Singin' Component={Singin} />
           <Route path='/Login' Component={Login} />
           <Route path='/Logout' Component={Logout} />
+          <Route path='/Coche/:query' Component={Coche} />
+          <Route path='/CocheAdmin/:query' Component={Cocheadmin} />
           <Route path='/manageCars' Component={ManageCars} />
+          <Route path='/cita' Component={Cita} />
         </Router>
       </Suspense>
-
     </main>
   );
 }

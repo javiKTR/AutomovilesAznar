@@ -209,7 +209,14 @@ footer {
   margin-bottom: 10px;
   object-fit:fill; /* Asegura que la imagen cubra el área sin deformarse */
 }
-
+.cocheVista{
+  height: 400px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #3825253d;
+  border-radius: 50px;
+}
 .CocheData {
   display: flex;
   flex-direction: center; /* Alinea los elementos internos en línea */
@@ -222,4 +229,20 @@ footer {
   margin: 4px 0;
   color: #333;
   text-align: center;
+}
+
+.cochedata{
+  display: flex;
+  flex-direction:row;
+}
+.ImgCoche{
+  height: 300px;
+  margin: 20px;
+}
+.datos label{
+  margin-right: 20px;
+}
+.datos .ActionButton{
+  width: 40%;
+  margin-left: 10px;
 }

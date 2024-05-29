@@ -2,10 +2,18 @@ import { useState, useEffect } from "react";
 import Axios from 'axios';
 import { Link } from '../link.jsx';
 import { ManagerCoche } from "../dbClases/coches.js"
+import { parseJwt } from "../paretoken.js"
+import { Header } from "../componenets/header.jsx"
 
 export default function AlquilerPage() {
   const [coches, setCoches] = useState([]);
-
+  let tokenExitst
+  try {
+    tokenExitst = (parseJwt(localStorage.getItem('login')).exp * 1000 > Date.now());
+  } catch (error) {
+    tokenExitst = false;
+  }
+  
     useEffect(() => {
         const cocheManager = new ManagerCoche();
         async function loadCoches() {
@@ -13,18 +21,11 @@ export default function AlquilerPage() {
             setCoches(cocheManager.getCochesAlquiler());
         }
         loadCoches();
+        
     }, []);
   return (
     <>
-      <header>
-        <Link to='/'> <h1>Automóviles Aznar</h1> </Link>
-        <nav className="enlaces">
-          <Link href="/marcas">Nuestras marcas</Link>
-          <Link href="/alquiler">Alquilar</Link>
-          <Link href="/compra">Compra</Link>
-          <Link href="/cita">Pedir cita</Link>
-        </nav>
-      </header>
+      <Header tokenExitst={ tokenExitst }/>
       <main className="container">
         <h2>Coches de alquiler</h2>
         <div className="carrousel">
@@ -57,7 +58,7 @@ export default function AlquilerPage() {
 function ImagenCoche({ coche, marca, modelo }) {
   return (
     <div className="Cochea">
-    <Link to={coche}><img src={`/images/${coche}.png`} alt={coche} /></Link>
+    <Link to={`/coche/${coche}`}><img src={`/images/${coche}.png`} alt={coche} /></Link>
       <div className="CocheData">
         <h3>{marca}</h3>
         <p> {modelo}</p>

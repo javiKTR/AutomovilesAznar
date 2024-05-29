@@ -2,11 +2,13 @@ import { useState } from "react"
 import Axios from "axios"
 import { Link } from '../link.jsx'
 import { Usuario } from '../clases/usuario.js'
+import { Header } from "../componenets/header.jsx"
 
 
 export default function Singin(){
     const usr = new Usuario();
-
+    
+    
     const addUser = () => {
         Axios.post("http://localhost:3001/createusr", {
             nombre: usr.getNombre(),

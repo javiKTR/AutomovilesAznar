@@ -12,15 +12,15 @@ export class Coche {
     }
 
     setCoche(coche) {
-        this.setId(coche[0]);
-        this.setMarca(coche[1]);
-        this.setModelo(coche[2]);
-        this.setDescripcion(coche[3]);
-        this.setKilometros(coche[4]);
-        this.setPotencia(coche[5]);
-        this.setTransmision(coche[6]);
-        this.setCombustible(coche[7]);
-        this.setCarroceria(coche[8]);
+        this.setId(coche.id);
+        this.setMarca(coche.marca);
+        this.setModelo(coche.modelo);
+        this.setDescripcion(coche.descripcion);
+        this.setKilometros(coche.kilometros);
+        this.setPotencia(coche.potencia);
+        this.setTransmision(coche.transmision);
+        this.setCombustible(coche.combustible);
+        this.setCarroceria(coche.carroceria);
     }
 
     getCoche() {

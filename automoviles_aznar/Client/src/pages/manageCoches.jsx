@@ -1,13 +1,21 @@
 
 import React, { useState, useEffect } from 'react';
 import { ManagerCoche } from '../dbClases/coches';
+import { parseJwt } from "../paretoken.js"
+import { Header } from "../componenets/header.jsx"
 
 export default function ManageCars() {
     const [managerCoche] = useState(new ManagerCoche());
     const [cars, setCars] = useState([]);
     const [car, setCar] = useState({ id: '', marca: '', modelo: '', descripcion: '' });
     const [editing, setEditing] = useState(false);
-
+    let tokenExitst
+    try {
+        tokenExitst = (parseJwt(localStorage.getItem('login')).exp * 1000 > Date.now());
+    } catch (error) {
+        tokenExitst = false;
+    }
+    
     useEffect(() => {
         const fetchData = async () => {
             await managerCoche.fetchCoches();
@@ -47,6 +55,7 @@ export default function ManageCars() {
 
     return (
         <div>
+            <Header tokenExitst={ tokenExitst }/>
             <form onSubmit={handleSubmit}>
                 <input type="text" name="marca" value={car.marca} onChange={handleInputChange} placeholder="Marca" required />
                 <input type="text" name="modelo" value={car.modelo} onChange={handleInputChange} placeholder="Modelo" required />

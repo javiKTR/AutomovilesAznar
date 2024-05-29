@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from '../link.jsx';
 import { ManagerCoche } from "../dbClases/coches.js"
 import { parseJwt } from "../paretoken.js"
+import { Header } from "../componenets/header.jsx"
 
 export default function HomePage() {
   const [cochesAlquiler, setCochesAlquiler] = useState([]);
@@ -13,7 +14,6 @@ export default function HomePage() {
     tokenExitst = false;
   }
   
-
   useEffect(() => {
 
     const manager = new ManagerCoche();
@@ -27,17 +27,7 @@ export default function HomePage() {
 
   return (
     <>
-      <header>
-        <h1>Automóviles Aznar</h1>
-        <nav className="enlaces">
-          <Link to="/marcas">Nuestras marcas</Link>
-          <Link to="/alquiler">Alquiler</Link>
-          <Link to="/compra">Compra</Link>
-          <Link to="/cita">Pedir cita</Link>
-          {tokenExitst ?  <Link to="/Logout">Logout</Link> : <Link to="/Singin">Singin</Link>}
-        </nav>
-      </header>
-
+      <Header tokenExitst={ tokenExitst }/>
       <main className="container">
         <h2>Coches de alquiler</h2>
         <div className="preVista">

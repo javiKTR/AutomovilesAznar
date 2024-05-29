@@ -2,31 +2,31 @@ import { useState, useEffect } from "react";
 import Axios from 'axios';
 import { Link } from '../link.jsx';
 import { ManagerCoche } from "../dbClases/coches.js"
+import { parseJwt } from "../paretoken.js"
+import { Header } from "../componenets/header.jsx"
 
 export default function CompraPage() {
   const [coches, setCoches] = useState([]);
-
-    useEffect(() => {
-        const cocheManager = new ManagerCoche();
-        async function loadCochesCompra() {
-            await cocheManager.fetchCoches();  // Esto también carga los datos necesarios para alquileres, si es un problema, se puede optimizar más tarde
-            setCoches(cocheManager.getCochesCompra());
-        }
-        loadCochesCompra();
-    }, []);
+  let tokenExitst
+  try {
+      tokenExitst = (parseJwt(localStorage.getItem('login')).exp * 1000 > Date.now());
+  } catch (error) {
+      tokenExitst = false;
+  }
+  
+  useEffect(() => {
+      const cocheManager = new ManagerCoche();
+      async function loadCochesCompra() {
+          await cocheManager.fetchCoches();  // Esto también carga los datos necesarios para alquileres, si es un problema, se puede optimizar más tarde
+          setCoches(cocheManager.getCochesCompra());
+      }
+      loadCochesCompra();
+  }, []);
 
 
   return (
     <>
-      <header>
-        <Link to='/'> <h1>Automóviles Aznar</h1> </Link>
-        <nav className="enlaces">
-          <Link href="/marcas">Nuestras marcas</Link>
-          <Link href="/alquiler">Alquilar</Link>
-          <Link href="/compra">Compra</Link>
-          <Link href="/cita">Pedir cita</Link>
-        </nav>
-      </header>
+      <Header tokenExitst={ tokenExitst }/>
       <main className="container">
         <h2>Coches para comprar</h2>
         <div className="carrousel">
@@ -59,7 +59,7 @@ export default function CompraPage() {
 function ImagenCoche({ coche, marca, modelo }) {
   return (
     <div className="Cochec">
-    <Link to={coche}><img src={`/images/${coche}.png`} alt={coche} /></Link>
+    <Link to={`/coche/${coche}`}><img src={`/images/${coche}.png`} alt={coche} /></Link>
       <div className="CocheData">
         <h3>{marca}</h3>
         <p> {modelo}</p>

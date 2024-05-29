@@ -2,11 +2,13 @@ import { useState } from "react"
 import Axios from "axios"
 import { Link } from '../link.jsx'
 import { Usuario } from '../clases/usuario.js'
+import { Header } from "../componenets/header.jsx"
 
 
 export default function Login(){
     const usr = new Usuario();
     const [usuarios, setUsuarios] = useState([]);
+    
     
 
     const getUser = () => {
@@ -39,7 +41,7 @@ export default function Login(){
                     usr.setPassword(event.target.value);
                 }}
                 type="password"/></label>
-                <Link to = "/"><button onClick={getUser}>Singin</button></Link>
+                <Link to = "/"><button onClick={getUser}>Login</button></Link>
             </div>
         </>
     )
