@@ -5,6 +5,8 @@ import './App.css'
 
 const AlquilerPage = lazy(() => import('./pages/alquilar.jsx'))
 const CompraPage = lazy(() => import('./pages/compra.jsx'))
+const AlquilerPageAdmin = lazy(() => import('./pages/alquilarAdmin.jsx'))
+const CompraPageAdmin = lazy(() => import('./pages/compraAdmin.jsx'))
 const HomePage = lazy(() => import('./pages/home.jsx'))
 const Page404 = lazy(() => import('./pages/404.jsx'))
 const SerchPage = lazy(() => import('./pages/serch.jsx'))
@@ -15,6 +17,9 @@ const Coche = lazy(() => import('./pages/coche.jsx'))
 const Cocheadmin = lazy(() => import('./pages/cocheAdmin.jsx'))
 const ManageCars = lazy(() => import('./pages/manageCoches.jsx'))
 const Cita = lazy(() => import('./pages/cita.jsx'))
+const VerCita = lazy(() => import('./pages/verCita.jsx'))
+const CitaCoche = lazy(() => import('./pages/citaCoche.jsx'))
+const Autorice = lazy(() => import('./pages/autorice.jsx'))
 
 import { Router } from './Router.jsx'
 import { Route } from './Route.jsx'
@@ -37,13 +42,18 @@ function App() {
           <Route path='/' Component={HomePage} />
           <Route path='/alquiler' Component={AlquilerPage} />
           <Route path='/compra' Component={CompraPage} />
+          <Route path='/alquilerAdmin' Component={AlquilerPageAdmin} />
+          <Route path='/compraAdmin' Component={CompraPageAdmin} />
           <Route path='/Singin' Component={Singin} />
           <Route path='/Login' Component={Login} />
           <Route path='/Logout' Component={Logout} />
           <Route path='/Coche/:query' Component={Coche} />
           <Route path='/CocheAdmin/:query' Component={Cocheadmin} />
-          <Route path='/manageCars' Component={ManageCars} />
+          <Route path='/crearCoche' Component={ManageCars} />
           <Route path='/cita' Component={Cita} />
+          <Route path='/verCita' Component={VerCita} />
+          <Route path='/autorice/:query' Component={Autorice} />
+          <Route path='/cita/:query' Component={CitaCoche} />
         </Router>
       </Suspense>
     </main>

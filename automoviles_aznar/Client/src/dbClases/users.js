@@ -1,8 +1,7 @@
 import Axios from 'axios';
 import { Usuario } from '../clases/usuario';
-import { Empleado } from '../clases/empleado';
 
-export class ManagerUsuario {
+export class ManageUsuario {
     constructor() {
         this.usuarios = [];
         this.empleados = [];
@@ -11,8 +10,8 @@ export class ManagerUsuario {
     // Métodos para usuarios
     async fetchUsuarios() {
         try {
-            const res = await Axios.get("http://localhost:3001/getusers");
-            this.usuarios = res.data.map(user => new Usuario(user.id, user.nombre, user.apellidos, user.email, user.password));
+            const res = await Axios.get("http://localhost:3001/getRangoUsers");
+            this.usuarios = res.data.map(user => new Usuario(user.id, user.nombre, user.apellidos, user.email, user.password, user.rango));
         } catch (error) {
             console.error("Error fetching users:", error);
         }
@@ -56,43 +55,20 @@ export class ManagerUsuario {
         }
     }
 
-    // Métodos para empleados
-    async fetchEmpleados() {
-        try {
-            const res = await Axios.get("http://localhost:3001/getemployees");
-            this.empleados = res.data.map(emp => new Empleado(emp.id, emp.idUsuario, emp.rango));
-        } catch (error) {
-            console.error("Error fetching employees:", error);
+    async getIdUser(userEmail){
+        try{
+            const res = await Axios.post(`http://localhost:3001/getIdUser`, {email:userEmail});            
+            return res.data[0].id
+        }catch (error) {
+            console.error("Error geting user:", error);
         }
-    }
-
-    async addEmpleado(empData) {
-        try {
-            const res = await Axios.post("http://localhost:3001/addemployee", empData);
-            this.empleados.push(new Empleado(res.data.id, res.data.idUsuario, res.data.rango));
-        } catch (error) {
-            console.error("Error adding employee:", error);
+    } 
+    async getUser(id){
+        try{
+            const res = await Axios.post(`http://localhost:3001/getUser`, {id:id});            
+            return res.data[0]
+        }catch (error) {
+            console.error("Error geting user:", error);
         }
-    }
-
-    async updateEmpleado(empData) {
-        try {
-            await Axios.put(`http://localhost:3001/updateemployee/${empData.id}`, empData);
-            let index = this.empleados.findIndex(emp => emp.id === empData.id);
-            if (index !== -1) {
-                this.empleados[index] = new Empleado(empData.id, empData.idUsuario, empData.rango);
-            }
-        } catch (error) {
-            console.error("Error updating employee:", error);
-        }
-    }
-
-    async deleteEmpleado(empId) {
-        try {
-            await Axios.delete(`http://localhost:3001/deleteemployee/${empId}`);
-            this.empleados = this.empleados.filter(emp => emp.id !== empId);
-        } catch (error) {
-            console.error("Error deleting employee:", error);
-        }
-    }
+    } 
 }

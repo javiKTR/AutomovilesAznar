@@ -42,14 +42,7 @@ export default function HomePage() {
           ))}
         </div>
 
-        <section className="marcas">
-          <h2>Nuestras marcas</h2>
-          <div className="logos-marcas">
-            <LogoCoche logo="Wolgsvagen" />
-            <LogoCoche logo="Nissan" />
-            <LogoCoche logo="Mazda" />
-          </div>
-        </section>
+        
       </main>
 
       <footer>

@@ -18,7 +18,7 @@ export default function CompraPage() {
       const cocheManager = new ManagerCoche();
       async function loadCochesCompra() {
           await cocheManager.fetchCoches();  // Esto también carga los datos necesarios para alquileres, si es un problema, se puede optimizar más tarde
-          setCoches(cocheManager.getCochesSinCompra());
+          setCoches(cocheManager.getCochesCompra());
       }
       loadCochesCompra();
   }, []);

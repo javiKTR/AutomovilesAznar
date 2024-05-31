@@ -1,10 +1,11 @@
 export class Usuario{
-    constructor(id = 0, nombre = "", apellidos = "", email = "", password = ""){
+    constructor(id = 0, nombre = "", apellidos = "", email = "", password = "", rango = 0){
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
         this.password = password;
+        this.rango = rango;
 
     }
 
@@ -58,6 +59,13 @@ export class Usuario{
 
     setPassword(password) {
         this.password = password;
+    }
+    getRango() {
+        return this.rango;
+    }
+
+    setRango(rango) {
+        this.rango = rango;
     }
 
 }

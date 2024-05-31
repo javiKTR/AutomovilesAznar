@@ -51,7 +51,32 @@ app.post("/login", (req, res) => {
             }
         });
 });
-app.post("/getuser", (req, res) => {
+
+app.post("/getIdUser", (req, res) => {
+    const { email } = req.body;
+    db.query("SELECT id, nombre, apellidos, email, rango FROM usuario WHERE email = ?",[email], 
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+app.post("/getUser", (req, res) => {
+    const { id } = req.body;
+    db.query("SELECT id, nombre, apellidos, email, rango FROM usuario WHERE id = ?",[id], 
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+app.post("/getRangoUser", (req, res) => {
     const { email } = req.body;
     db.query("SELECT rango FROM usuario WHERE email = ?",[email], 
         (err, result) => {
@@ -103,9 +128,9 @@ app.post("/getcoche", (req, res) => {
 });
 
 app.post("/createcar", (req, res) => {
-    const { marca, modelo, descripcion } = req.body;
-    db.query("INSERT INTO coche(marca, modelo, descripcion) VALUES(?, ?, ?)", 
-        [marca, modelo, descripcion], 
+    const { marca, modelo, descripcion, kilometros, potencia, transmision,combustible, carroceria } = req.body;
+    db.query("INSERT INTO coche(marca, modelo, descripcion, kilometros, potencia, transmision, combustible, carroceria ) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", 
+        [marca, modelo, descripcion, kilometros, potencia, transmision,combustible, carroceria ], 
         (err, result) => {
             if (err) {
                 console.error("ERROR " + err);
@@ -128,7 +153,7 @@ app.get("/getecars", (req, res) => {
         });
 });
 
-// Ruta para actualizar coche
+// coche
 app.put("/updatecar/:id", (req, res) => {
     const { id } = req.params;
     const { marca, modelo, descripcion, kilometros, potencia, transmision, combustible, carroceria } = req.body;
@@ -145,8 +170,37 @@ app.put("/updatecar/:id", (req, res) => {
         }
     );
 });
+app.put("/alquilerReservado", (req, res) => {
+    const {  id, idUser } = req.body;
+    db.query(
+        "UPDATE alquiler SET idUsuario = ? WHERE idCoche = ?",
+        [idUser, id],
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send("Coche actualizado");
+            }
+        }
+    );
+});
+app.put("/compraReservado", (req, res) => {
+    const {  id, idUser } = req.body;
+    db.query(
+        "UPDATE compra SET idUsuario = ? WHERE idCoche = ?",
+        [idUser, id],
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send("Coche actualizado");
+            }
+        }
+    );
+});
 
-// Ruta para eliminar coche
 app.delete("/deletecar/:id", (req, res) => {
     const { id } = req.params;
     db.query("DELETE FROM coche WHERE id = ?", [id], (err, result) => {
@@ -176,6 +230,19 @@ app.post("/addrental", (req, res) => {
 
 app.get("/getrentals", (req, res) => {
     db.query("SELECT * FROM alquiler", 
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+
+app.post("/getrental", (req, res) => {
+    const { modelo } = req.body;
+    db.query("SELECT * FROM alquiler WHERE modelo = ?", [modelo],
         (err, result) => {
             if (err) {
                 console.error("ERROR: " + err);
@@ -236,7 +303,98 @@ app.delete("/deletepurchase/:idCoche", (req, res) => {
         }
     });
 });
+// Citas
+app.post("/addappointment", (req, res) => {
+    const { idUsuario, idEmpleado, fecha, hora } = req.body;
+    db.query("INSERT INTO cita(idUsuario, idEmpleado, fecha, hora) VALUES(?, ?, ?, ?)", 
+        [idUsuario, idEmpleado, fecha, hora],
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send({ id: result.insertId, fecha, hora });
+            }
+        });
+});
+app.post("/addappointmentCoche", (req, res) => {
+    const { idUsuario, idEmpleado,idCoche, fecha, hora } = req.body;
+    db.query("INSERT INTO cita(idUsuario, idEmpleado, idCoche, fecha, hora) VALUES(?, ?, ?, ?, ?)", 
+        [idUsuario, idEmpleado,idCoche, fecha, hora],
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send({ id: result.insertId, fecha, hora });
+            }
+        });
+});
 
+app.get("/getappointments", (req, res) => {
+    db.query("SELECT * FROM cita", 
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+app.post("/getappointmentUsr", (req, res) => {
+    const usr = req.body.id;
+    db.query("SELECT * FROM cita WHERE idUsuario = ?", 
+        [usr],
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+app.post("/getappointmentEmp", (req, res) => {
+    const usr = req.body.id;
+    db.query("SELECT * FROM cita WHERE idEmpleado = ?", 
+        [usr],
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+
+app.put("/updateappointment/:id", (req, res) => {
+    const { id } = req.params;
+    const { fecha, hora } = req.body;
+    db.query("UPDATE cita SET fecha = ?, hora = ? WHERE id = ?", 
+        [fecha, hora, id],
+        (err, result) => {
+            if (err) {
+                console.error("ERROR: " + err);
+                res.status(500).send(err);
+            } else {
+                res.send("Cita actualizada");
+            }
+        });
+});
+
+app.delete("/deleteappointment/:id", (req, res) => {
+    const id = req.params.id;
+    db.query("DELETE FROM cita WHERE id = ?", [id], (err, result) => {
+        if (err) {
+            console.error("ERROR: " + err);
+            res.status(500).send(err);
+        } else {
+            res.send("Cita eliminada");
+        }
+    });
+});
 app.listen(3001, 'localhost', () => {
     console.log('Server is running on port 3001');
 });

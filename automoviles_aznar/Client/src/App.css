@@ -210,8 +210,10 @@ footer {
   object-fit:fill; /* Asegura que la imagen cubra el área sin deformarse */
 }
 .cocheVista{
-  height: 400px;
+  height: 450px;
   width: 50%;
+  margin-top: 10%;
+  margin-bottom: 10%;
   margin-left: auto;
   margin-right: auto;
   background-color: #3825253d;
@@ -245,4 +247,33 @@ footer {
 .datos .ActionButton{
   width: 40%;
   margin-left: 10px;
+}
+
+.formCita{
+  width: 35%;
+  margin-top: 15%;
+  margin-bottom: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  
+}
+.formCita *{
+  margin: 5px;
+} 
+.formCoche{
+  width: 35%;
+  margin-top: 15%;
+  margin-bottom: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+.formCoche *{
+  margin: 5px;
+} 
+
+.ListCitas{
+  display: flex;
 }

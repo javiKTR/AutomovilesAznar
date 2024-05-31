@@ -4,15 +4,14 @@ import { Header } from "../componenets/header.jsx";
 import { ManageCita } from '../dbClases/citas.js';
 import { ManageUsuario } from '../dbClases/users.js';
 
-export default function Cita() {
-    
+export default function citaCoche({ routeParams }) {
     let tokenExitst;
     try {
         tokenExitst = (parseJwt(localStorage.getItem('login')).exp * 1000 > Date.now());
     } catch (error) {
         tokenExitst = false;
     }
-    
+
     const [fecha, setFecha] = useState('');
     const [hora, setHora] = useState('');
     const [citas, setCitas] = useState([]);
@@ -67,8 +66,8 @@ export default function Cita() {
         event.preventDefault();
         const userEmail = parseJwt(localStorage.getItem('login')).email;
         const idUser = await ManagerUsuario.getIdUser(userEmail);
-        const citaData = { idUsuario: idUser, idEmpleado: 1, fecha, hora };
-        await ManagerCita.addCita(citaData);
+        const citaData = { idUsuario: idUser, idEmpleado: 1, idCoche:routeParams.query, fecha, hora };
+        await ManagerCita.addCitaCoche(citaData);
         setFecha('');
         setHora('');
         

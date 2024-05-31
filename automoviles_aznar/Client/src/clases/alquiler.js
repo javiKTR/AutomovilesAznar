@@ -7,10 +7,10 @@ export class Alquiler {
     }
 
     setAlquiler(alquiler) {
-        this.setIdCoche(alquiler[0]);
-        this.setPrecio(alquiler[1]);
-        this.setPrecioSeguro(alquiler[2]);
-        this.setIdUsuario(alquiler[3]);
+        this.setIdCoche(alquiler.idCoche);
+        this.setPrecio(alquiler.precio);
+        this.setPrecioSeguro(alquiler.precioSeguro);
+        this.setIdUsuario(alquiler.idUsuario);
     }
 
     getAlquiler() {

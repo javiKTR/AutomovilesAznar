@@ -10,7 +10,7 @@ export default function Singin(){
     
     
     const addUser = () => {
-        Axios.post("http://localhost:3001/createusr", {
+        Axios.post("http://localhost:3001/adduser", {
             nombre: usr.getNombre(),
             apellidos: usr.getApellidos(),
             email: usr.getEmail(),

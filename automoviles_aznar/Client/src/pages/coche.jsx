@@ -3,16 +3,20 @@ import Axios from 'axios';
 import { Link } from '../link.jsx';
 import { ManagerCoche } from "../dbClases/coches.js"
 import { Coche } from "../clases/coche.js"
+import { Alquiler } from "../clases/alquiler.js"
 import { parseJwt } from "../paretoken.js"
 import { Header } from "../componenets/header.jsx"
 
-export default function AlquilerPage({ routeParams }) {
+export default function CocheInfo({ routeParams }) {
   const [coches, setCoches] = useState([]);
+  const [cochesA, setCochesA] = useState([]);
   const coche = new Coche();
   const [rango, setRango] = useState(0);
+  const cocheManager = new ManagerCoche();
+  
   
   const userAdmin = (email) => {
-    Axios.post("http://localhost:3001/getuser",{
+    Axios.post("http://localhost:3001/getRangoUser",{
       email:email
     }).then((response) => {
       setRango(response.data[0].rango);
@@ -27,17 +31,19 @@ export default function AlquilerPage({ routeParams }) {
     tokenExitst = false;
   }
     useEffect(() => {
-        const cocheManager = new ManagerCoche();
+        
         async function loadCoches() {
             await cocheManager.fetchCoches();
             setCoches(cocheManager.getCoches());
+            setCochesA(cocheManager.getAlquler());
         }
         loadCoches();
-    }, []);
 
+    }, []);
     const filteredCoche = coches.find(c => c.modelo === routeParams.query);
-    //console.log(filteredCoche);
+   
     try {
+      
       coche.setCoche({ 
         id:filteredCoche.id,
         modelo:filteredCoche.modelo,
@@ -49,13 +55,15 @@ export default function AlquilerPage({ routeParams }) {
         transmision:filteredCoche.transmision,
         descripcion:filteredCoche.descripcion
   
-       }); 
+      }); 
+      const precio = cochesA.find(c => c.idCoche === filteredCoche.id).precio;
     } catch (error) {
-      
     }
     function admin(){
       if(rango > 0){
         return <Link to={`/cocheAdmin/${coche.modelo}`}>Editar Coche</Link>
+      }else{
+        return <Link to={`/cita/${coche.id}`}>Pedir cita</Link>
       }
     }
   return (

@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import { Cita } from '../clases/cita';
 
-export class ManagerCita {
+export class ManageCita {
     constructor() {
         this.citas = [];
     }
@@ -18,7 +18,15 @@ export class ManagerCita {
     async addCita(citaData) {
         try {
             const res = await Axios.post("http://localhost:3001/addappointment", citaData);
-            this.citas.push(new Cita(res.data.id, res.data.usuarioId, res.data.cocheId, res.data.fecha, res.data.estado));
+            this.citas.push(new Cita(res.data.usuarioId, res.data.cocheId, res.data.fecha, res.data.estado));
+        } catch (error) {
+            console.error("Error adding appointment:", error);
+        }
+    }
+    async addCitaCoche(citaData) {
+        try {
+            const res = await Axios.post("http://localhost:3001/addappointmentCoche", citaData);
+            this.citas.push(new Cita(res.data.usuarioId, res.data.cocheId, res.data.fecha, res.data.estado));
         } catch (error) {
             console.error("Error adding appointment:", error);
         }
@@ -44,4 +52,23 @@ export class ManagerCita {
             console.error("Error deleting appointment:", error);
         }
     }
+    
+    async getCitasUsr(id){
+        try {
+            const res = await Axios.post("http://localhost:3001/getappointmentUsr", { id });
+            return res.data;
+        } catch (error) {
+            console.error("Error fetching car:", error);
+        }
+    }
+    
+    async getCitasEmp(id){
+        try {
+            const res = await Axios.post("http://localhost:3001/getappointmentEmp", { id });
+            return res.data;
+        } catch (error) {
+            console.error("Error fetching car:", error);
+        }
+    }
+    
 }

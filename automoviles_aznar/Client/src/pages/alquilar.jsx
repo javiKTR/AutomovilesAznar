@@ -18,7 +18,7 @@ export default function AlquilerPage() {
         const cocheManager = new ManagerCoche();
         async function loadCoches() {
             await cocheManager.fetchCoches();
-            setCoches(cocheManager.getCochesAlquiler());
+            setCoches(cocheManager.getCochesSinAlquiler());
         }
         loadCoches();
         

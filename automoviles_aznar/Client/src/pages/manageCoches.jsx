@@ -7,7 +7,7 @@ import { Header } from "../componenets/header.jsx"
 export default function ManageCars() {
     const [managerCoche] = useState(new ManagerCoche());
     const [cars, setCars] = useState([]);
-    const [car, setCar] = useState({ id: '', marca: '', modelo: '', descripcion: '' });
+    const [car, setCar] = useState({ id: '', marca: '', modelo: '', descripcion: '', kilometros: 0, potencia: 0, transmision: '',combustible: '', carroceria: '' });
     const [editing, setEditing] = useState(false);
     let tokenExitst
     try {
@@ -31,46 +31,45 @@ export default function ManageCars() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (editing) {
-            await managerCoche.updateCar(car);
-        } else {
-            await managerCoche.createCar(car);
-        }
+        
+        await managerCoche.addCoche(car);
+        
         await managerCoche.fetchCoches();
         setCars(managerCoche.coches);
-        setCar({ id: '', marca: '', modelo: '', descripcion: '' });
-        setEditing(false);
+        setCar({ id: '', marca: '', modelo: '', descripcion: '', kilometros: 0, potencia: 0, transmision: '',combustible: '', carroceria: '' });
     };
 
-    const handleEdit = (car) => {
-        setCar(car);
-        setEditing(true);
-    };
-
-    const handleDelete = async (id) => {
-        await managerCoche.deleteCar(id);
-        await managerCoche.fetchCoches();
-        setCars(managerCoche.coches);
-    };
 
     return (
         <div>
             <Header tokenExitst={ tokenExitst }/>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="marca" value={car.marca} onChange={handleInputChange} placeholder="Marca" required />
-                <input type="text" name="modelo" value={car.modelo} onChange={handleInputChange} placeholder="Modelo" required />
-                <textarea name="descripcion" value={car.descripcion} onChange={handleInputChange} placeholder="Descripción" required />
-                <button type="submit">{editing ? 'Actualizar' : 'Crear'}</button>
+            <form className='formCoche' onSubmit={handleSubmit}>
+                <label>marca:</label>
+                <input type="text" name="marca" value={car.marca} onChange={handleInputChange} placeholder="Marca" required /><br/>
+                <label>modelo:</label>
+                <input type="text" name="modelo" value={car.modelo} onChange={handleInputChange} placeholder="Modelo" required /><br/>
+                <label>descripcion:</label>
+                <textarea name="descripcion" value={car.descripcion} onChange={handleInputChange} placeholder="Descripción" required /><br/>
+                <label>kilometros:</label>
+                <input type="number" name="kilometros" value={car.kilometros} onChange={handleInputChange} placeholder="Modelo" required /><br/>
+                <label>carroceria:</label>
+                <input type="text" name="carroceria" value={car.carroceria} onChange={handleInputChange} placeholder="Modelo" required /><br/>
+                <label>combustible:</label>
+                <input type="text" name="combustible" value={car.combustible} onChange={handleInputChange} placeholder="Modelo" required /><br/>
+                <label>potencia:</label>
+                <input type="number" name="potencia" value={car.potencia} onChange={handleInputChange} placeholder="Modelo" required /><br/>
+                <label>transmision:</label>
+                <input type="text" name="transmision" value={car.transmision} onChange={handleInputChange} placeholder="Modelo" required /><br/>
+                <button type="submit">Crear</button>
             </form>
-            <ul>
-                {cars.map((car) => (
-                    <li key={car.id}>
-                        {car.marca} {car.modelo} - {car.descripcion}
-                        <button onClick={() => handleEdit(car)}>Editar</button>
-                        <button onClick={() => handleDelete(car.id)}>Eliminar</button>
-                    </li>
-                ))}
-            </ul>
+            <footer>
+                <div className="contacto">
+                    <p>nº de teléfono: 976 969 696</p>
+                    <p>WhatsApp: 676 565 454</p>
+                    <p>Email: AutomovilesAznar@gmail.com</p>
+                </div>
+            </footer>
+            
         </div>
     );
 }

@@ -11,6 +11,9 @@ export class ManagerCoche {
         this.cochesC = []; 
         this.cochesAlquiler = []; 
         this.cochesComprados = [];  
+        this.cochesSinAlquiler = []; 
+        this.cochesSinComprados = [];  
+        this.cocheA = [];
     }
      
     async fetchCoches() {
@@ -18,7 +21,9 @@ export class ManagerCoche {
             const res = await Axios.get("http://localhost:3001/getecars");
             this.coches = res.data.map(coche => new Coche(coche.id, coche.marca, coche.modelo, coche.descripcion, coche.kilometros, coche.potencia, coche.transmision, coche.combustible, coche.carroceria));
             await this.fetchCochesAlquiler();
+            this.filtrarCochesSinAlquiler();
             await this.fetchCochesCompra();
+            this.filtrarCochesSinCompra()
         } catch (error) {
             console.error("Error fetching cars:", error);
         }
@@ -47,6 +52,14 @@ export class ManagerCoche {
         try {
             const res = await Axios.post("http://localhost:3001/getcoche", { modelo });
             return res.data;
+        } catch (error) {
+            console.error("Error fetching car:", error);
+        }
+    }
+    async getCocheA(modelo) {
+        try {
+            const res = await Axios.post("http://localhost:3001/getrental", { modelo });
+            this.cocheA = res
         } catch (error) {
             console.error("Error fetching car:", error);
         }
@@ -149,19 +162,62 @@ export class ManagerCoche {
         this.cochesAlquiler = this.coches.filter(coche => idsCochesA.has(coche.id));
     }
 
+    filtrarCochesSinAlquiler() {
+        const idsCochesA = new Set(
+            this.cochesA.filter(cocheA => cocheA.idUsuario === null).map(cocheA => cocheA.idCoche)
+        );
+        this.cochesSinAlquiler = this.coches.filter(coche => idsCochesA.has(coche.id));
+        
+    }
+
     filtrarCochesCompra() { 
         const idsCochesC = new Set(this.cochesC.map(coche => coche.idCoche));
         this.cochesComprados = this.coches.filter(coche => idsCochesC.has(coche.id));
     }
-
+    
+    filtrarCochesSinCompra() { 
+        const idsCochesC = new Set(
+            this.cochesC.filter(cocheC => cocheC.idUsuario === null).map(cocheC => cocheC.idCoche)
+        );
+        this.cochesSinComprados = this.coches.filter(coche => idsCochesC.has(coche.id));
+    }
+    
     getCoches() {
         return this.coches;
     }
+    getAlquler(){
+        return this.cochesA;
+    }
     getCochesAlquiler() {
         return this.cochesAlquiler;
+    }
+    getCochesSinAlquiler() {
+        return this.cochesSinAlquiler;
+    }
+
+    getCochesSinCompra() {
+        return this.cochesSinComprados;
     }
 
     getCochesCompra() {
         return this.cochesComprados;
     }
+
+    async reservaCocheAlquiler(id, idUser) {
+        try {
+            await Axios.put(`http://localhost:3001/alquilerReservado`, {id, idUser});
+            
+        } catch (error) {
+            console.error("Error updating purchase:", error);
+        }
+    }
+    async reservaCocheCompra(id, idUser) {
+        try {
+            await Axios.put(`http://localhost:3001/compraReservado`, {id, idUser});
+            
+        } catch (error) {
+            console.error("Error updating purchase:", error);
+        }
+    }
+
 }

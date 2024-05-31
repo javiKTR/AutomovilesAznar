@@ -1,5 +1,5 @@
 export class Cita {
-    constructor(id = 0, idUsuario = 0, idEmpleado = 0, idCoche = 0, fecha = null, hora = null, autorizacion = null) {
+    constructor(id, idUsuario, idEmpleado, idCoche, fecha, hora, autorizacion) {
         this.id = id;
         this.idUsuario = idUsuario;
         this.idEmpleado = idEmpleado;
@@ -8,6 +8,8 @@ export class Cita {
         this.hora = hora;
         this.autorizacion = autorizacion;
     }
+    
+    
 
     setCita(cita) {
         this.setId(cita[0]);
