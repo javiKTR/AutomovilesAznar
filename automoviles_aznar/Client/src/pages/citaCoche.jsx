@@ -86,7 +86,7 @@ export default function citaCoche({ routeParams }) {
             <Header tokenExitst={tokenExitst} />
             <div className="formCita">
                 <div className="formC">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit}className="datos">
                         <div>
                             <label>Fecha:</label>
                             <input

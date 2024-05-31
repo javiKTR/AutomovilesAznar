@@ -23,31 +23,33 @@ export default function Singin(){
     return(
         <>
             <div className="datos">
-                <label>Nombre: <input 
+                <input  className="controls" placeholder="Nombre"
                 onChange={(event) => {
                     usr.setNombre(event.target.value);
                 }}
-                type="text"/></label><br/>
-                <label>Apellido: <input 
+                type="text"/><br/>
+                <input  className="controls" placeholder="Apellido"
                 onChange={(event) => {
                     usr.setApellidos(event.target.value);
                 }}
-                type="text"/></label><br/>
-                <label>Email: <input 
+                type="text"/><br/>
+                <input  className="controls" placeholder="Email"
                 onChange={(event) => {
                     usr.setEmail(event.target.value);
                 }}
-                type="email"/></label><br/>
-                <label>Password: <input 
+                type="email"/><br/>
+                <input  className="controls" placeholder="Password"
                 onChange={(event) => {
                     usr.setPassword(event.target.value);
                 }}
-                type="password"/></label>
+                type="password"/>
                 <Link to = "/"><button onClick={addUser}>Singin</button></Link>
-            </div>
-            <div>
-                <p>Si ya tienes cuenta</p>
-                <Link to = "/Login">Login</Link>
+                
+                <div>
+                    <p>Si ya tienes cuenta</p>
+                    <Link to = "/Login"><button>Login</button></Link>
+                <Link to = "/"><button>Home</button></Link>
+                </div>
             </div>
         </>
     )

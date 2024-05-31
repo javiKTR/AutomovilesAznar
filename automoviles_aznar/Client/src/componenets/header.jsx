@@ -13,7 +13,12 @@ export function Header({ tokenExitst }) {
           setRango(response.data[0].rango);
         })
     }
-    userAdmin(parseJwt(localStorage.getItem('login')).email);
+    try {
+      userAdmin(parseJwt(localStorage.getItem('login')).email);
+    } catch (error) {
+      
+    }
+    
     if(rango > 0){
         flag = true
     }

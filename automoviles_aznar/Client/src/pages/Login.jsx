@@ -31,17 +31,19 @@ export default function Login(){
     return(
         <>
             <div className="datos">
-                <label>Email: <input 
+                <h5>formulario Login</h5>
+                <input 
                 onChange={(event) => {
                     usr.setEmail(event.target.value);
                 }}
-                type="email"/></label><br/>
-                <label>Password: <input 
+                type="email" placeholder="Email" className="controls"/><br/>
+                <input 
                 onChange={(event) => {
                     usr.setPassword(event.target.value);
                 }}
-                type="password"/></label>
+                type="password" placeholder="Password" className="controls"/>
                 <Link to = "/"><button onClick={getUser}>Login</button></Link>
+                <Link to = "/"><button>Home</button></Link>
             </div>
         </>
     )
